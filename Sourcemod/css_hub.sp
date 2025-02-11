@@ -2,6 +2,8 @@
 #pragma newdecls required
 #pragma dynamic 131072
 
+// 请搭配Json和Socket拓展使用
+
 #include <sourcemod>
 #include <sdktools>
 #include <socket>
