@@ -13,7 +13,7 @@
 
 ## 预览
 
-![[imgs/prew1.png]]
+![[https://github.com/ZxYdzero/Spk-s-Hud/blob/master/imgs/prew1.png]]
 
 ---
 
