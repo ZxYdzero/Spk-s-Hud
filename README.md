@@ -56,7 +56,7 @@ cargo tauri build
 您要确保在您的scripting/include文件夹内安装了Socket和Json对应的头文件, 然后将此sp文件通过scripting内的compile编译
 
 ---
-# 若您有更好的点子 请提Issue and PR 十分感谢
+# 若您有更好的点子 请提Issue或者PR 十分感谢!!!
 
 ---
 ## License
