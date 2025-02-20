@@ -1,5 +1,4 @@
 <template>
-  <!-- 保持原有菜单结构不变 -->
   <div v-if="menuVisible" class="menu-overlay">
     <div class="menu">
       <h2>控制菜单</h2>
@@ -177,7 +176,6 @@ button {
   border-radius: 5px;
 }
 
-/* 总体面板 */
 .scoreboard {
   position: absolute;
   top: 4%;
@@ -186,89 +184,102 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 15, 15, 0.9);
-  padding: 10px 40px;
-  border-radius: 5px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(145deg, rgba(15, 15, 15, 0.95), rgba(30, 30, 30, 0.85));
+  padding: 10px 30px; /* 减少内边距 */
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
+  transition: all 0.3s ease-in-out;
 }
 
-/* 单个队伍得分部分 */
 .team {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0 20px;
-  width: 200px;
+  padding: 5px 15px;
+  width: 240px;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out;
 }
 
-/* 队伍名称 */
+.team:hover {
+  transform: scale(1.05);
+}
+
 .team-name {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 5px;
+  letter-spacing: 1px;
 }
 
-/* 得分数字 */
 .team-score {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: bold;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.3);
+  animation: pulseGlow 2s infinite alternate ease-in-out;
 }
 
-/* CT (蓝色) */
 .ct {
   color: #00aaff;
-  text-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+  text-shadow: 0 0 15px rgba(0, 170, 255, 0.8), 0 0 30px rgba(0, 170, 255, 0.5);
 }
 
-/* T (橙色) */
 .t {
   color: #ff9900;
-  text-shadow: 0 0 15px rgba(255, 153, 0, 0.8);
+  text-shadow: 0 0 15px rgba(255, 153, 0, 0.8), 0 0 30px rgba(255, 153, 0, 0.5);
 }
 
-/* VS 中间符号 */
 .versus {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #fff;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-  margin: 0 20px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(255, 255, 255, 0.5);
+  margin: 0 15px;
 }
 
-/* 队伍面板调整 */
+@keyframes pulseGlow {
+  0% {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.5);
+  }
+}
+
 .team.compact {
   width: 300px;
   padding: 15px;
   margin: 20px;
-  background: rgba(0, 0, 0, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0) !important;
 }
 
 .ct-team.compact {
   position: absolute;
-  left: 20px;
-  top: 35%;
+  left: 1%;
+  top: 45%;
 }
 
 .t-team.compact {
   position: absolute;
-  right: 20px;
-  top: 35%;
+  right: 1%;
+  top: 45%;
 }
 
 .ct_compact-player {
   width: 300px;
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 12px 0;
   color: white;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(0, 170, 255, 0.7);
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 20px; 
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
 }
 
 .t_compact-player {
@@ -279,7 +290,10 @@ button {
   color: white;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(255, 153, 0, 0.7);
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(255, 153, 0, 0.8);;
 }
 
 .player-name {
