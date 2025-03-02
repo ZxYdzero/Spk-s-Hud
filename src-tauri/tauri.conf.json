@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "css_hud",
+    "productName": "Spk-s_Hud",
     "version": "0.1.2"
   },
   "tauri": {
@@ -22,8 +22,8 @@
     
     "windows": [
       {
-        "width": 1920,
-        "height": 1080,
+        "width": 400,
+        "height": 600,
         "fullscreen": false,
         "resizable": false,
         "transparent": true,
