@@ -20,7 +20,7 @@ public Plugin myinfo = {
     name = "Spk's Hud",
     author = "Spk",
     description = "",
-    version = "v0.1.2",
+    version = "v0.2.1",
     url = ""
 };
 
@@ -95,10 +95,8 @@ public Action SendGameData(Handle timer) {
 
             // 将 player 对象添加到 players 数组
             players.PushObject(player);  // 将 player 添加到 players 数组
-
         }
     }
-
     // 将 players 数组添加到 data 对象
     data.SetObject("players", players);
 
@@ -106,6 +104,8 @@ public Action SendGameData(Handle timer) {
     char buffer[2048];
     data.Encode(buffer, sizeof(buffer));
     SocketSend(g_clientSocket, buffer, strlen(buffer));
+
+    delete players;
     delete data;
 
     return Plugin_Continue;
@@ -117,9 +117,9 @@ public void OnIncomingConnection(Handle socket, Handle newSocket, const char[] r
         PrintToServer("%s 收到来自 %s:%d 的新连接", PLUGIN_NAME, remoteIP, remotePort);
         g_clientSocket = newSocket;
         // 设置新socket回调
-        SocketSetReceiveCallback(newSocket, OnServerReceive);
-        SocketSetDisconnectCallback(newSocket, OnClientDisconnected);
-        SocketSetErrorCallback(newSocket, OnClientError);
+        SocketSetReceiveCallback(g_clientSocket, OnServerReceive);
+        SocketSetDisconnectCallback(g_clientSocket, OnClientDisconnected);
+        SocketSetErrorCallback(g_clientSocket, OnClientError);
     } else {
         PrintToServer("%s 收到来自 %s:%d 的新连接, 但是Socket已满", PLUGIN_NAME, remoteIP, remotePort);
         CloseHandle(newSocket);
@@ -160,11 +160,18 @@ public void OnClientDisconnected(Handle socket, any arg)
 {
     PrintToServer("%s 客户端断开连接", PLUGIN_NAME);
     if (g_clientSocket == socket) {
-        CloseHandle(g_timer);
-        g_timer = INVALID_HANDLE;
-        g_clientSocket = INVALID_HANDLE;
+        if (g_timer != INVALID_HANDLE) {
+            KillTimer(g_timer);
+            g_timer = INVALID_HANDLE;
+        }
+        if (g_clientSocket != INVALID_HANDLE) {
+            CloseHandle(g_clientSocket);
+            g_clientSocket = INVALID_HANDLE;
+        }
     }
-    CloseHandle(socket);
+    if (socket != INVALID_HANDLE && socket != g_clientSocket) {
+        CloseHandle(socket);
+    }
 }
 
 // 错误处理回调
