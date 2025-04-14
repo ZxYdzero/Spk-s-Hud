@@ -1,0 +1,408 @@
+.hud-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* Scoreboard */
+.scoreboard {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 12px 40px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.score-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.score-wave.ct-leading {
+    opacity: 1;
+    background: linear-gradient(90deg,
+            rgba(0, 170, 255, 0.2) 0%,
+            rgba(0, 0, 0, 0) 50%);
+    animation: ctWave 3s ease-in-out infinite;
+}
+
+.score-wave.t-leading {
+    opacity: 1;
+    background: linear-gradient(270deg,
+            rgba(255, 153, 0, 0.2) 0%,
+            rgba(0, 0, 0, 0) 50%);
+    animation: tWave 3s ease-in-out infinite;
+}
+
+.team {
+    position: relative;
+    z-index: 2;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-width: 100px;
+    text-align: center;
+}
+
+.team.ct.team-leading {
+    background: rgba(0, 170, 255, 0.1);
+    box-shadow:
+        0 0 30px rgba(0, 170, 255, 0.2),
+        inset 0 0 20px rgba(0, 170, 255, 0.1);
+    animation: ctPulse 2s ease-in-out infinite;
+}
+
+.team.t.team-leading {
+    background: rgba(255, 153, 0, 0.1);
+    box-shadow:
+        0 0 30px rgba(255, 153, 0, 0.2),
+        inset 0 0 20px rgba(255, 153, 0, 0.1);
+    animation: tPulse 2s ease-in-out infinite;
+}
+
+.team-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.team-score {
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.versus {
+    position: relative;
+    z-index: 2;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* CT 队伍颜色和效果 */
+.ct .team-name {
+    color: #00aaff;
+    text-shadow:
+        0 0 20px rgba(0, 170, 255, 0.8),
+        0 0 40px rgba(0, 170, 255, 0.4);
+}
+
+.ct .team-score {
+    color: #00aaff;
+    text-shadow:
+        0 0 30px rgba(0, 170, 255, 0.8),
+        0 0 50px rgba(0, 170, 255, 0.4);
+}
+
+/* T 队伍颜色和效果 */
+.t .team-name {
+    color: #ff9900;
+    text-shadow:
+        0 0 20px rgba(255, 153, 0, 0.8),
+        0 0 40px rgba(255, 153, 0, 0.4);
+}
+
+.t .team-score {
+    color: #ff9900;
+    text-shadow:
+        0 0 30px rgba(255, 153, 0, 0.8),
+        0 0 50px rgba(255, 153, 0, 0.4);
+}
+
+@keyframes ctWave {
+
+    0%,
+    100% {
+        transform: translateX(-100%);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+}
+
+@keyframes tWave {
+
+    0%,
+    100% {
+        transform: translateX(100%);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+}
+
+@keyframes ctPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 30px rgba(0, 170, 255, 0.2),
+            inset 0 0 20px rgba(0, 170, 255, 0.1);
+    }
+
+    50% {
+        box-shadow:
+            0 0 50px rgba(0, 170, 255, 0.3),
+            inset 0 0 30px rgba(0, 170, 255, 0.2);
+    }
+}
+
+@keyframes tPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 30px rgba(255, 153, 0, 0.2),
+            inset 0 0 20px rgba(255, 153, 0, 0.1);
+    }
+
+    50% {
+        box-shadow:
+            0 0 50px rgba(255, 153, 0, 0.3),
+            inset 0 0 30px rgba(255, 153, 0, 0.2);
+    }
+}
+
+/* 玩家卡片容器 */
+.team-players {
+    position: fixed;
+    top: 60%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 340px;
+    padding: 10px;
+}
+
+.ct-team {
+    left: 20px;
+}
+
+.t-team {
+    right: 20px;
+}
+
+/* 玩家卡片 */
+.player-card {
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.player-card.ct {
+    --team-color: #00aaff;
+    --team-glow-color: rgba(0, 170, 255, 0.6);
+}
+
+.player-card.t {
+    --team-color: #ff9900;
+    --team-glow-color: rgba(255, 153, 0, 0.6);
+}
+
+/* 玩家名称样式增强 */
+.player-card.ct .player-name {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow:
+        0 0 5px rgba(0, 170, 255, 0.8),
+        0 0 2px rgba(0, 0, 0, 1);
+    letter-spacing: 0.5px;
+}
+
+.player-card.t .player-name {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow:
+        0 0 5px rgba(255, 153, 0, 0.8),
+        0 0 2px rgba(0, 0, 0, 1);
+    letter-spacing: 0.5px;
+}
+
+/* 玩家高亮效果 */
+.player-card.highlight .player-name {
+    animation: nameGlow 1s ease-in-out infinite;
+}
+
+.player-card.ct {
+    background: linear-gradient(90deg,
+            rgba(0, 170, 255, 0.15),
+            rgba(0, 0, 0, 0.8));
+    border-left: 4px solid var(--ct-color);
+    box-shadow:
+        0 0 15px rgba(0, 170, 255, 0.2),
+        inset 0 0 20px rgba(0, 170, 255, 0.1);
+}
+
+.player-card.t {
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.8),
+            rgba(255, 153, 0, 0.15));
+    border-right: 4px solid var(--t-color);
+    box-shadow:
+        0 0 15px rgba(255, 153, 0, 0.2),
+        inset 0 0 20px rgba(255, 153, 0, 0.1);
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+}
+
+/* 玩家信息 */
+.player-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.player-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow:
+        0 0 2px rgba(0, 0, 0, 0.8);
+}
+
+.player-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 500;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.3),
+        0 0 2px rgba(0, 0, 0, 0.8);
+}
+
+/* 状态部分 */
+.status-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    min-width: 140px;
+}
+
+/* 修改武器容器样式 */
+.weapon-container {
+    width: 140px;
+    /* 增加宽度 */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+/* 修改武器图标样式 */
+.weapon-icon {
+    width: auto;
+    height: 36px;
+    object-fit: contain;
+    filter:
+        drop-shadow(0 0 4px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+}
+
+/* 血条样式 */
+.health-bar {
+    width: 140px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        inset 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* 调整卡片内容的间距 */
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 20px;
+}
+
+.health-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition: all 0.3s ease;
+    background-image: linear-gradient(to right,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.1));
+}
+
+/* 图标 */
+.stat-icon {
+    width: 16px;
+    height: 16px;
+    filter:
+        drop-shadow(0 0 2px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 1px rgba(255, 0, 0, 0.8));
+}
+
+/* 悬停效果 */
+.player-card:hover {
+    transform: translateX(5px);
+    outline: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ct.player-card:hover {
+    box-shadow:
+        0 0 20px rgba(0, 170, 255, 0.3),
+        inset 0 0 25px rgba(0, 170, 255, 0.15);
+}
+
+.t.player-card:hover {
+    box-shadow:
+        0 0 20px rgba(255, 153, 0, 0.3),
+        inset 0 0 25px rgba(255, 153, 0, 0.15);
+}

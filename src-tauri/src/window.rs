@@ -14,7 +14,7 @@ pub fn update_window_state(window: &Window, connected: bool) -> Result<(), Strin
         window
             .set_ignore_cursor_events(false)
             .map_err(|e| format!("恢复鼠标事件失败: {}", e))?;
-        let dsize = PhysicalSize { width: 400, height: 600 };
+        let dsize = PhysicalSize { width: 480, height: 740 };
         window
             .set_size(Size::Physical(dsize))
             .map_err(|e| format!("设置窗口大小失败: {}", e))?;

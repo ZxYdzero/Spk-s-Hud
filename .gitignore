@@ -25,3 +25,4 @@ dist-ssr
 
 #自己添的
 /.history
+/src-tauri/config.toml

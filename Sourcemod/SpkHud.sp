@@ -155,22 +155,19 @@ public void OnServerReceive(Handle socket, const char[] receiveData, const int d
         }
     }
 }
+
 // 客户端断开回调
 public void OnClientDisconnected(Handle socket, any arg)
 {
     PrintToServer("%s 客户端断开连接", PLUGIN_NAME);
-    if (g_clientSocket == socket) {
-        if (g_timer != INVALID_HANDLE) {
-            KillTimer(g_timer);
-            g_timer = INVALID_HANDLE;
-        }
-        if (g_clientSocket != INVALID_HANDLE) {
-            CloseHandle(g_clientSocket);
-            g_clientSocket = INVALID_HANDLE;
-        }
+
+    if (g_timer != INVALID_HANDLE) {
+        KillTimer(g_timer);
+        g_timer = INVALID_HANDLE;
     }
-    if (socket != INVALID_HANDLE && socket != g_clientSocket) {
-        CloseHandle(socket);
+
+    if (g_clientSocket != INVALID_HANDLE) {
+        g_clientSocket = INVALID_HANDLE;
     }
 }
 

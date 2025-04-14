@@ -1,25 +1,40 @@
+use super::super::AppState;
 use crate::config::get_config;
 use crate::window::update_window_state;
 
-use super::super::AppState;
+use serde::Serialize;
 use tauri::{Manager, Window};
 use serde_json::Value;
 use tokio::net::TcpStream;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
+#[derive(Serialize)]
+pub struct ErrorResponse {
+    message: String,
+    should_update_window: bool,
+}
+
 #[tauri::command]
 pub async fn connect(
     window: Window,
     state: tauri::State<'_, AppState>,
-) -> Result<(), String> {
+) -> Result<(), ErrorResponse> {
     // 先更新窗口状态（变为全屏并忽略鼠标）
-    update_window_state(&window, true)?;
+    if let Err(e) = update_window_state(&window, true) {
+        return Err(ErrorResponse {
+            message: e,
+            should_update_window: false,
+        });
+    }
 
     // 确保同一时间只有一个连接
     {
         let mut active = state.connection_active.lock().await;
         if *active {
-            return Err("TCP连接已存在".into());
+            return Err(ErrorResponse {
+                message: "TCP连接已存在".into(),
+                should_update_window: true,
+            });
         }
         *active = true;
     }
@@ -66,25 +81,30 @@ pub async fn connect(
                                     }
                                     Ok(_) => {
                                         let _ = window_clone.emit_all("log", "连接已关闭".to_string());
+                                        let _ = window_clone.emit_all("server_disconnected", ());
                                         break;
                                     }
                                     Err(e) => {
                                         let _ = window_clone.emit_all("log", format!("读取数据失败: {}", e));
+                                        let _ = window_clone.emit_all("server_disconnected", ());
                                         break;
                                     }
                                 }
                             }
                         } else {
                             let _ = window_clone.emit_all("log", "认证失败，请检查密码".to_string());
+                            let _ = window_clone.emit_all("server_disconnected", ());
                         }
                     }
                     Err(e) => {
                         let _ = window_clone.emit_all("log", format!("读取认证响应失败: {}", e));
+                        let _ = window_clone.emit_all("server_disconnected", ());
                     }
                 }
             }
             Err(e) => {
                 let _ = window_clone.emit_all("log", format!("连接失败: {}", e));
+                let _ = window_clone.emit_all("server_disconnected", ());
             }
         }
         let mut active = state_clone.connection_active.lock().await;

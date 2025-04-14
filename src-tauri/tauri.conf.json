@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Spk-s_Hud",
-    "version": "0.1.2"
+    "version": "0.2.1"
   },
   "tauri": {
     
@@ -22,8 +22,8 @@
     
     "windows": [
       {
-        "width": 400,
-        "height": 600,
+        "width": 480,
+        "height": 740,
         "fullscreen": false,
         "resizable": false,
         "transparent": true,
